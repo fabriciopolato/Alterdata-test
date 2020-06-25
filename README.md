@@ -7,7 +7,7 @@
 * Componentes e Design de terceiros podem ser usados, entretanto, todos devem ser documentados no README e descritos porque foram escolhidos.
 * Não esqueça de documentar.
 
-## Outras coisas a considerar
+## Considere
 Você não é obrigado a escrever código para abordar esses pontos, mas deve considerá-los para discussão.
 
 * Esteja preparado para discutir sua escolha de determinados componentes de interface do usuário (por exemplo, "Bootstrap", etc)
