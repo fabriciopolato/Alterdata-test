@@ -1,8 +1,8 @@
 {
   "name": "node-setup",
   "version": "1.0.0",
-  "main": "index.js",
-  "author": "Diego Fernandes <diego.schell.f@gmail.com>",
+  "main": "src/server.ts",
+  "author": "Fabricio Polato <fabriciopolato@gmail.com>",
   "license": "MIT",
   "scripts": {
     "build": "babel src --extensions \".js,.ts\" --out-dir dist --copy-files --no-copy-ignored",
@@ -37,6 +37,8 @@
     "typescript": "^3.9.5"
   },
   "dependencies": {
-    "express": "^4.17.1"
+    "express": "^4.17.1",
+    "knex": "^0.21.2",
+    "pg": "^8.3.0"
   }
 }
