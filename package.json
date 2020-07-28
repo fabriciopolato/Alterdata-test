@@ -7,8 +7,10 @@
   "scripts": {
     "build": "babel src --extensions \".js,.ts\" --out-dir dist --copy-files --no-copy-ignored",
     "start": "node dist/server.js",
-    "dev": "ts-node-dev -r tsconfig-paths/register --respawn --transpileOnly --ignore-watch node_modules --no-notify src/server.ts",
-    "test": "jest"
+    "dev": "ts-node-dev -r tsconfig-paths/register --respawn --ignore-watch node_modules --no-notify src/server.ts",
+    "test": "jest",
+    "knex:seed": "knex seed:run",
+    "knex:migrate": "knex migrate:rollback && knex migrate:latest"
   },
   "devDependencies": {
     "@babel/cli": "^7.10.1",
