@@ -1,6 +1,6 @@
 import { Strategy, ExtractJwt, StrategyOptions } from 'passport-jwt';
 import knex from '@database';
-import User from '../controllers/UsersController';
+import { User } from '@models/User';
 
 const options: StrategyOptions = {
   jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),

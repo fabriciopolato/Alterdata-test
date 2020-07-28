@@ -1,21 +1,13 @@
 import knex from '@database';
-// import User from '@models/User';
 import bcrypt from 'bcryptjs';
 import { Request, Response, NextFunction } from 'express';
 import jwt from 'jsonwebtoken';
+import { User } from '@models/User';
 
 const createToken = (user: User) => {
   const { id, email } = user;
   return jwt.sign({ id, email }, 'keyboard_cat');
 };
-
-export interface User {
-  id: number;
-  email: string;
-  password: string;
-  created_at: Date;
-  updated_at: Date;
-}
 
 export default class UsersController {
   async login(req: Request, res: Response, next: NextFunction) {
