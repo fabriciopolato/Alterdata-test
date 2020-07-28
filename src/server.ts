@@ -1,12 +1,11 @@
-import express from 'express'
-import '@controllers/UsersController'
+import express from 'express';
+import '@controllers/UsersController';
+import routes from './routes/users.routes';
 
-const app = express()
+const app = express();
 
-app.get('/', (request, response) => {
-  return response.json({ message: 'Hello World' })
-})
+app.use(routes);
 
 app.listen(3333, () => {
-  console.log('Server is running')
-})
+  console.log('Server is running');
+});
