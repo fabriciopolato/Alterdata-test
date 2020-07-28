@@ -1,5 +1,4 @@
 import express, { Request, Response, NextFunction } from 'express';
-import '@controllers/UsersController';
 import routes from './routes/users.routes';
 import passport from 'passport';
 import passportMiddleware from './middleware/passport';
