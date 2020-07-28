@@ -12,6 +12,8 @@
   },
   "plugins": ["@typescript-eslint"],
   "rules": {
-    "semi": 0
+    "semi": "off",
+    "space-before-function-paren": "off",
+    "no-unused-vars": "off"
   }
 }
