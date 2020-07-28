@@ -2,8 +2,14 @@ import knex from '@database';
 // import User from '@models/User';
 import bcrypt from 'bcryptjs';
 import { Request, Response, NextFunction } from 'express';
+import jwt from 'jsonwebtoken';
 
-interface User {
+const createToken = (user: User) => {
+  const { id, email } = user;
+  return jwt.sign({ id, email }, 'keyboard_cat');
+};
+
+export interface User {
   id: number;
   email: string;
   password: string;
@@ -31,7 +37,7 @@ export default class UsersController {
           .json({ message: 'Usuário e/ou senha incorretos' });
       }
 
-      return res.json(foundUser);
+      return res.json({ token: createToken(foundUser) });
     } catch (error) {
       next(error);
     }
