@@ -7,12 +7,13 @@ const routes = Router();
 const usersController = new UsersController();
 const ticketsController = new TicketsController();
 
-routes.post('/users', usersController.login);
+routes.post('/login', usersController.login);
 
 routes.use(passport.authenticate('jwt', { session: false }));
 
 routes.post('/tickets', ticketsController.create);
 routes.get('/tickets', ticketsController.get);
+routes.get('/tickets/archived', ticketsController.getClosedTickets);
 routes.put('/tickets/:id', ticketsController.update);
 routes.delete('/tickets/:id', ticketsController.delete);
 

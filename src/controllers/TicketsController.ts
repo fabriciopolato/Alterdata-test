@@ -24,10 +24,28 @@ export default class TicketsController {
   async get(req: Request, res: Response, next: NextFunction) {
     const { id } = req.user as User;
     try {
-      // soft-delete para manter os tickets no database depois dos tickets serem encerrados
       const foundTickets = await knex<Ticket>('tickets')
         .where('user_id', id)
         .where('deleted_at', null);
+
+      if (foundTickets.length === 0) {
+        return res.json({
+          message: 'Não existem tickets abertos para este usuário'
+        });
+      }
+
+      return res.json(foundTickets);
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  async getClosedTickets(req: Request, res: Response, next: NextFunction) {
+    const { id } = req.user as User;
+    try {
+      const foundTickets = await knex<Ticket>('tickets')
+        .where('user_id', id)
+        .whereNot('deleted_at', null);
 
       if (foundTickets.length === 0) {
         return res.json({
@@ -62,6 +80,7 @@ export default class TicketsController {
     const user = req.user as User;
 
     try {
+      // soft-delete para manter os tickets no database depois dos tickets serem encerrados
       const archivedTicket = await knex<Ticket>('tickets')
         .where('id', ticket_id)
         .where('user_id', user.id)
