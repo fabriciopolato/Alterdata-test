@@ -58,13 +58,25 @@ export default class TicketsController {
   }
 
   async delete(req: Request, res: Response, next: NextFunction) {
-    const id: number = Number(req.params.id);
+    const ticket_id: number = Number(req.params.id);
+    const user = req.user as User;
 
     try {
-      await knex('tickets').where({ id }).update({ deleted_at: new Date() });
-      const [deletedTicket] = await knex<Ticket>('tickets').where('id', id);
+      const archivedTicket = await knex<Ticket>('tickets')
+        .where('id', ticket_id)
+        .where('user_id', user.id)
+        .update('deleted_at', new Date());
 
-      return res.status(200).json(deletedTicket);
+      const [deletedTicket] = await knex<Ticket>('tickets')
+        .where('id', ticket_id)
+        .where('user_id', user.id);
+
+      if (archivedTicket) {
+        return res.status(200).json(deletedTicket);
+      }
+      return res.status(403).json({
+        message: 'usuário não está autorizado a encerrar este ticket'
+      });
     } catch (error) {
       next(error);
     }
