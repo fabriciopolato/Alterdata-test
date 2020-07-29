@@ -2,9 +2,11 @@ import express, { Request, Response, NextFunction } from 'express';
 import routes from './routes/users.routes';
 import passport from 'passport';
 import passportMiddleware from './middleware/passport';
+import cors from 'cors';
 
 const app = express();
 
+app.use(cors());
 app.use(passport.initialize());
 
 passport.use(passportMiddleware);

@@ -4,6 +4,23 @@ import { Ticket } from '@models/Ticket';
 import { User } from '@models/User';
 
 export default class TicketsController {
+  async create(req: Request, res: Response, next: NextFunction) {
+    const { subject, message }: Ticket = req.body;
+    const { id } = req.user as User;
+
+    const ticket = new Ticket({ subject, message, user_id: id });
+
+    try {
+      const [createdTicket] = await knex<Ticket>('tickets')
+        .insert(ticket)
+        .returning('*');
+
+      return res.status(201).json(createdTicket);
+    } catch (error) {
+      next(error);
+    }
+  }
+
   async get(req: Request, res: Response, next: NextFunction) {
     const { id } = req.user as User;
     try {
@@ -19,23 +36,6 @@ export default class TicketsController {
       }
 
       return res.json(foundTickets);
-    } catch (error) {
-      next(error);
-    }
-  }
-
-  async create(req: Request, res: Response, next: NextFunction) {
-    const { subject, message }: Ticket = req.body;
-    const { id } = req.user as User;
-
-    const ticket = new Ticket({ subject, message, user_id: id });
-
-    try {
-      const [createdTicket] = await knex<Ticket>('tickets')
-        .insert(ticket)
-        .returning('*');
-
-      return res.status(201).json(createdTicket);
     } catch (error) {
       next(error);
     }
