@@ -46,6 +46,8 @@ export default class TicketsController {
     const { id } = req.user as User;
     try {
       const foundTickets = await knex<Ticket>('tickets')
+        .join('users', 'users.id', '=', 'tickets.user_id')
+        .select('tickets.*', 'users.email', 'users.username')
         .where('user_id', id)
         .whereNot('deleted_at', null);
 
