@@ -29,7 +29,7 @@ export default class UsersController {
           .json({ message: 'Usuário e/ou senha incorretos' });
       }
 
-      return res.json({ token: createToken(foundUser) });
+      return res.json({ user: foundUser, token: createToken(foundUser) });
     } catch (error) {
       next(error);
     }

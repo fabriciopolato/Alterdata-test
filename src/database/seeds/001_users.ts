@@ -14,7 +14,7 @@ export async function seed(knex: Knex): Promise<void> {
   const [hash1, hash2] = await Promise.all([promise1, promise2]);
 
   await knex('users').insert([
-    { email: 'joao@email.com', password: hash1 },
-    { email: 'carlos@email.com', password: hash2 }
+    { username: 'João de Paula', email: 'joao@email.com', password: hash1 },
+    { username: 'Carlos Benê', email: 'carlos@email.com', password: hash2 }
   ]);
 }
