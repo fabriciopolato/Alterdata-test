@@ -15,6 +15,7 @@
     "semi": "off",
     "space-before-function-paren": "off",
     "no-unused-vars": "off",
-    "camelcase": "off"
+    "camelcase": "off",
+    "keyword-spacing": "off"
   }
 }

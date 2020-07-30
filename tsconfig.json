@@ -20,7 +20,8 @@
       "@models/*": ["./src/models/*"],
       "@views/*": ["./src/views/*"],
       "@config/*": ["./src/config/*"],
-      "@database": ["./src/database/index.ts"]
+      "@database": ["./src/database/index.ts"],
+      "@interfaces": ["./src/interfaces/interfaces.ts"]
     }
   },
   "include": ["src/**/*"]
