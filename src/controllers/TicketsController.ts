@@ -77,6 +77,19 @@ export default class TicketsController {
     }
   }
 
+  async reopen(req: Request, res: Response, next: NextFunction) {
+    try {
+      const { id } = req.params;
+
+      await knex('tickets').where({ id }).update({ deleted_at: null });
+      const updatedTicket = await knex<Ticket>('tickets').where('id', id);
+
+      return res.status(201).json(updatedTicket);
+    } catch (error) {
+      next(error);
+    }
+  }
+
   async delete(req: Request, res: Response, next: NextFunction) {
     const ticket_id: number = Number(req.params.id);
     const user = req.user as User;

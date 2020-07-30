@@ -16,5 +16,6 @@ routes.get('/tickets', ticketsController.get);
 routes.get('/tickets/archived', ticketsController.getClosedTickets);
 routes.put('/tickets/:id', ticketsController.update);
 routes.delete('/tickets/:id', ticketsController.delete);
+routes.put('/tickets/reopen/:id', ticketsController.reopen);
 
 export default routes;
