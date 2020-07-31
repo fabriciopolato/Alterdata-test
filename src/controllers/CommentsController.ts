@@ -1,6 +1,6 @@
 import knex from '@database';
 import { Request, Response, NextFunction } from 'express';
-import { IComment, IUser } from '@interfaces';
+import { IComment, IUser, ITicket } from '@interfaces';
 import { Comment } from '@models/Comment';
 
 export default class CommentsController {
@@ -23,6 +23,10 @@ export default class CommentsController {
       const [createdComment] = await knex<IComment>('comments')
         .insert(newComment)
         .returning('*');
+
+      await knex<ITicket>('tickets')
+        .update('updated_at', new Date())
+        .where('id', ticket_id);
 
       return res.status(201).json(createdComment);
     } catch (error) {
