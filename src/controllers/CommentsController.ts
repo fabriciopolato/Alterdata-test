@@ -5,7 +5,7 @@ import { Comment } from '@models/Comment';
 
 export default class CommentsController {
   async create(req: Request, res: Response, next: NextFunction) {
-    const { message }: IComment = req.body;
+    const { comment }: IComment = req.body;
     const ticket_id = Number(req.params.id);
     const { id } = req.user as IUser;
 
@@ -13,15 +13,15 @@ export default class CommentsController {
       return res.status(400).json({ message: 'parâmetro inválido' });
     }
 
-    const comment = new Comment({
-      message,
+    const newComment = new Comment({
+      comment,
       user_id: id,
       ticket_id
     });
 
     try {
       const [createdComment] = await knex<IComment>('comments')
-        .insert(comment)
+        .insert(newComment)
         .returning('*');
 
       return res.status(201).json(createdComment);
