@@ -1,11 +1,16 @@
+import { ITicket } from '@interfaces';
+
+type TicketConstructor = Omit<
+  ITicket,
+  'id' | 'created_at' | 'updated_at' | 'deleted_at'
+>;
+
 export class Ticket {
   subject: string;
   message: string;
   user_id: number;
 
-  constructor({ message, subject, user_id }: Ticket) {
-    this.message = message;
-    this.subject = subject;
-    this.user_id = user_id;
+  constructor(props: TicketConstructor) {
+    Object.assign(this, props);
   }
 }
