@@ -1,17 +1,17 @@
 import knex from '@database';
 import { Request, Response, NextFunction } from 'express';
 import { Ticket } from '@models/Ticket';
-import { User } from '@models/User';
+import { IUser, ITicket } from '@interfaces';
 
 export default class TicketsController {
   async create(req: Request, res: Response, next: NextFunction) {
-    const { subject, message }: Ticket = req.body;
-    const { id } = req.user as User;
+    const { subject, message }: ITicket = req.body;
+    const { id } = req.user as IUser;
 
     const ticket = new Ticket({ subject, message, user_id: id });
 
     try {
-      const [createdTicket] = await knex<Ticket>('tickets')
+      const [createdTicket] = await knex<ITicket>('tickets')
         .insert(ticket)
         .returning('*');
 
@@ -22,9 +22,10 @@ export default class TicketsController {
   }
 
   async get(req: Request, res: Response, next: NextFunction) {
-    const { id } = req.user as User;
+    const { id } = req.user as IUser;
+
     try {
-      const foundTickets = await knex<Ticket>('tickets')
+      const foundTickets = await knex<ITicket>('tickets')
         .join('users', 'users.id', '=', 'tickets.user_id')
         .select('tickets.*', 'users.email', 'users.username')
         .where('user_id', id)
@@ -43,9 +44,9 @@ export default class TicketsController {
   }
 
   async getClosedTickets(req: Request, res: Response, next: NextFunction) {
-    const { id } = req.user as User;
+    const { id } = req.user as IUser;
     try {
-      const foundTickets = await knex<Ticket>('tickets')
+      const foundTickets = await knex<ITicket>('tickets')
         .join('users', 'users.id', '=', 'tickets.user_id')
         .select('tickets.*', 'users.email', 'users.username')
         .where('user_id', id)
@@ -68,10 +69,10 @@ export default class TicketsController {
       const { message } = req.body;
       const { id } = req.params;
 
-      await knex('tickets')
-        .where({ id })
+      await knex<ITicket>('tickets')
+        .where('id', id)
         .update({ message, updated_at: new Date() });
-      const updatedTicket = await knex<Ticket>('tickets').where('id', id);
+      const updatedTicket = await knex<ITicket>('tickets').where('id', id);
 
       return res.status(201).json(updatedTicket);
     } catch (error) {
@@ -83,8 +84,10 @@ export default class TicketsController {
     try {
       const { id } = req.params;
 
-      await knex('tickets').where({ id }).update({ deleted_at: null });
-      const updatedTicket = await knex<Ticket>('tickets').where('id', id);
+      await knex<ITicket>('tickets')
+        .where('id', id)
+        .update({ deleted_at: null });
+      const updatedTicket = await knex<ITicket>('tickets').where('id', id);
 
       return res.status(201).json(updatedTicket);
     } catch (error) {
@@ -94,16 +97,16 @@ export default class TicketsController {
 
   async delete(req: Request, res: Response, next: NextFunction) {
     const ticket_id: number = Number(req.params.id);
-    const user = req.user as User;
+    const user = req.user as IUser;
 
     try {
       // soft-delete para manter os tickets no database depois dos tickets serem encerrados
-      const archivedTicket = await knex<Ticket>('tickets')
+      const archivedTicket = await knex<ITicket>('tickets')
         .where('id', ticket_id)
         .where('user_id', user.id)
         .update('deleted_at', new Date());
 
-      const [deletedTicket] = await knex<Ticket>('tickets')
+      const [deletedTicket] = await knex<ITicket>('tickets')
         .where('id', ticket_id)
         .where('user_id', user.id);
 
