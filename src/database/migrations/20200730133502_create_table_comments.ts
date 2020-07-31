@@ -7,7 +7,6 @@ export const up = async (knex: Knex): Promise<void> => {
     table.integer('user_id').references('users.id').notNullable();
     table.integer('ticket_id').references('tickets.id').notNullable();
     table.timestamp('created_at').defaultTo(knex.fn.now());
-    table.timestamp('deleted_at');
   });
 };
 

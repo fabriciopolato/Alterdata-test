@@ -14,7 +14,6 @@ export interface IComment {
   user_id: number;
   ticket_id: number;
   created_at: Date;
-  deleted_at: Date;
 }
 
 export interface IUser {
