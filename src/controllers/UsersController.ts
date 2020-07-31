@@ -2,9 +2,9 @@ import knex from '@database';
 import bcrypt from 'bcryptjs';
 import { Request, Response, NextFunction } from 'express';
 import jwt from 'jsonwebtoken';
-import { User } from '@models/User';
+import { IUser } from '@interfaces';
 
-const createToken = (user: User) => {
+const createToken = (user: IUser) => {
   const { id, email } = user;
   return jwt.sign({ id, email }, 'keyboard_cat');
 };
@@ -14,7 +14,7 @@ export default class UsersController {
     const { email, password } = req.body;
 
     try {
-      const foundUser = await knex<User>('users').where({ email }).first();
+      const foundUser = await knex<IUser>('users').where({ email }).first();
 
       if (!foundUser) {
         return res
