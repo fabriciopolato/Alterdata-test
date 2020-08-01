@@ -1,7 +1,5 @@
 # Desafio Alterdata
 
-![Desafio Alterdata ]
-
 ## About The Project
 
 The challenge was to build a system for tickets registration. I created a home and login screens.
