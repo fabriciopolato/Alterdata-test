@@ -61,12 +61,6 @@ yarn dev
 PORTS: 3333
 ```
 
-6. Access the application through the following link afer doing the steps 1 - 6.
-
-```sh
-http://localhost:3333/
-```
-
 <!-- CONTACT -->
 
 ## Contact
